@@ -5,6 +5,10 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 
+//$app->options('/{routes:.+}', function ($request, $response, $args) {
+//    return $response;
+//});
+
 //Add Region
 
 $app->post('/api/region/add', function (Request $request, Response $response) {
