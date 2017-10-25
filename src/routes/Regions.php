@@ -93,7 +93,6 @@ $app->get('/api/regions', function (Request $request, Response $response) {
     }
 });
 
-
 //Add Country
 
 $app->post('/api/country/add', function (Request $request, Response $response) {
@@ -116,6 +115,80 @@ $app->post('/api/country/add', function (Request $request, Response $response) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
 });
+
+//Get Single Country Data
+
+$app->get('/api/country/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "SELECT * from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $country = $stmt->fetch(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($country);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Update Country 
+
+$app->put('/api/country/update/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $title = $request->getParam('title');
+    $flag = $request->getParam('flag');
+    $r_id = $request->getParam('r_id');
+    $sql = "UPDATE places SET title=:title,flag=:flag,r_id=:r_id WHERE id=$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':flag',$flag);
+        $stmt->bindParam(':r_id',$flag);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "Region Updated"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Delete Country
+
+$app->delete('/api/country/delete/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "DELETE from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "Region Deleted"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Get All Country
+
+$app->get('/api/country', function (Request $request, Response $response) {
+    $sql = "SELECT * from places";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $regions = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($regions);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
 
 
 //Add State
