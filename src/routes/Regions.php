@@ -5,7 +5,13 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 
+<<<<<<< HEAD
 /////////////////////////////////////////////Region////////////////////////////////////////////
+=======
+//$app->options('/{routes:.+}', function ($request, $response, $args) {
+//    return $response;
+//});
+>>>>>>> 7ceab4dd7d7a25bb5c5b1dd606d158064945fc74
 
 //Add Region
 
