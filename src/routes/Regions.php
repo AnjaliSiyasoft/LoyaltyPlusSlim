@@ -5,6 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 
+/////////////////////////////////////////////Region////////////////////////////////////////////
+
 //Add Region
 
 $app->post('/api/region/add', function (Request $request, Response $response) {
@@ -93,6 +95,10 @@ $app->get('/api/regions', function (Request $request, Response $response) {
     }
 });
 
+///////////////////////////////////////////////Region Exit/////////////////////////////////////////////
+
+///////////////////////////////////////////////Country////////////////////////////////////////////////
+
 //Add Country
 
 $app->post('/api/country/add', function (Request $request, Response $response) {
@@ -150,7 +156,7 @@ $app->put('/api/country/update/{id}', function (Request $request, Response $resp
         $stmt->bindParam(':r_id',$flag);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Region Updated"}';
+        echo '{"notice":{"text": "Country Updated"}';
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -167,7 +173,7 @@ $app->delete('/api/country/delete/{id}', function (Request $request, Response $r
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Region Deleted"}';
+        echo '{"notice":{"text": "Country Deleted"}';
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -175,21 +181,23 @@ $app->delete('/api/country/delete/{id}', function (Request $request, Response $r
 
 //Get All Country
 
-$app->get('/api/country', function (Request $request, Response $response) {
+$app->get('/api/countries', function (Request $request, Response $response) {
     $sql = "SELECT * from places";
     try {
         $db = new db();
         $db = $db->connect();
         $stmt = $db->query($sql);
-        $regions = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $countries = $stmt->fetchAll(PDO::FETCH_OBJ);
         $db = null;
-        echo json_encode($regions);
+        echo json_encode($countries);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
 });
 
+///////////////////////////////////////////////Country Exit/////////////////////////////////////////////
 
+///////////////////////////////////////////////State///////////////////////////////////////////////////
 
 //Add State
 
@@ -211,6 +219,10 @@ $app->post('/api/state/add', function (Request $request, Response $response) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
 });
+
+///////////////////////////////////////////////State Exit/////////////////////////////////////////////
+
+///////////////////////////////////////////////City//////////////////////////////////////////////////
 
 //Add City
 
@@ -234,6 +246,10 @@ $app->post('/api/city/add', function (Request $request, Response $response) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
 });
+
+///////////////////////////////////////////////City Exit/////////////////////////////////////////////
+
+///////////////////////////////////////////////Area////////////////////////////////////////////////////
 
 //Add Area
 
@@ -260,3 +276,4 @@ $app->post('/api/area/add', function (Request $request, Response $response) {
     }
 });
 
+///////////////////////////////////////////////Area Exit///////////////////////////////////////////////
