@@ -6,7 +6,7 @@ $app = new \Slim\App;
 
 //Add Region
 
-$app->post('/api/regions/add', function (Request $request, Response $response) {
+$app->post('/api/region/add', function (Request $request, Response $response) {
 $title = $request->getParam('title');
 $date=date('Y-m-d H:i:s');
 $sql="INSERT INTO places (type,title,created,modified) VALUES ('Region',:title,'$date','$date') ";
@@ -131,6 +131,87 @@ echo '{"error":{"text": '.$e->getMessage().'}';
 }
 });
 
+//Get Single Region Data
 
+$app->get('/api/region/{id}', function (Request $request, Response $response) {
+$id = $request->getAttribute('id');
+$sql="SELECT * from places WHERE id =$id";
+try
+{
+$db = new db();
+$db =$db->connect();
+$stmt=$db->query($sql);
+$region=$stmt->fetch(PDO::FETCH_OBJ);
+$db = null;
+echo json_encode($region);
+}
+catch(PDOException $e)
+{
+echo '{"error":{"text": '.$e->getMessage().'}';
+}
+});
 
+//Update Region 
 
+$app->put('/api/region/update/{id}', function (Request $request, Response $response) {
+$id=$request->getAttribute('id');
+$title = $request->getParam('title');
+$sql="UPDATE places SET title=:title WHERE id=$id";
+try
+{
+$db = new db();
+$db =$db->connect();
+$stmt=$db->prepare($sql);
+$stmt->bindParam(':title',$title);
+$stmt->execute();
+$db = null;
+echo '{"notice":{"text": "Region Updated"}';
+}
+catch(PDOException $e)
+{
+echo '{"error":{"text": '.$e->getMessage().'}';
+
+}
+});
+
+//Delete Region
+
+$app->delete('/api/region/delete/{id}', function (Request $request, Response $response) {
+$id = $request->getAttribute('id');
+$sql="DELETE from places WHERE id =$id";
+try
+{
+$db = new db();
+$db =$db->connect();
+$stmt=$db->prepare($sql);
+$stmt->execute();
+$db = null;
+echo '{"notice":{"text": "Region Deleted"}';
+}
+catch(PDOException $e)
+{
+echo '{"error":{"text": '.$e->getMessage().'}';
+
+}
+});
+
+//Get All Region
+
+$app->get('/api/regions', function (Request $request, Response $response) {
+$sql="SELECT * from places";
+try
+{
+$db = new db();
+$db =$db->connect();
+$stmt=$db->query($sql);
+$regions=$stmt->fetchAll(PDO::FETCH_OBJ);
+$db = null;
+echo json_encode($regions);
+
+}
+catch(PDOException $e)
+{
+echo '{"error":{"text": '.$e->getMessage().'}';
+
+}
+});
