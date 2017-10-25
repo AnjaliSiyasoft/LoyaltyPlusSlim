@@ -5,13 +5,11 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 
-<<<<<<< HEAD
-/////////////////////////////////////////////Region////////////////////////////////////////////
-=======
 //$app->options('/{routes:.+}', function ($request, $response, $args) {
 //    return $response;
 //});
->>>>>>> 7ceab4dd7d7a25bb5c5b1dd606d158064945fc74
+
+/////////////////////////////////////////////Region////////////////////////////////////////////
 
 //Add Region
 
@@ -54,7 +52,8 @@ $app->get('/api/region/{id}', function (Request $request, Response $response) {
 $app->put('/api/region/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
     $title = $request->getParam('title');
-    $sql = "UPDATE places SET title=:title WHERE id=$id";
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE places SET title=:title,modified='$date' WHERE id=$id";
     try {
         $db = new db();
         $db = $db->connect();
@@ -152,14 +151,15 @@ $app->put('/api/country/update/{id}', function (Request $request, Response $resp
     $title = $request->getParam('title');
     $flag = $request->getParam('flag');
     $r_id = $request->getParam('r_id');
-    $sql = "UPDATE places SET title=:title,flag=:flag,r_id=:r_id WHERE id=$id";
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE places SET title=:title,flag=:flag,r_id=:r_id,modified='$date' WHERE id=$id";
     try {
         $db = new db();
         $db = $db->connect();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':flag',$flag);
-        $stmt->bindParam(':r_id',$flag);
+        $stmt->bindParam(':flag', $flag);
+        $stmt->bindParam(':r_id', $r_id);
         $stmt->execute();
         $db = null;
         echo '{"notice":{"text": "Country Updated"}';
@@ -226,6 +226,78 @@ $app->post('/api/state/add', function (Request $request, Response $response) {
     }
 });
 
+//Get Single State Data
+
+$app->get('/api/state/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "SELECT * from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $state = $stmt->fetch(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($state);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Update State 
+
+$app->put('/api/state/update/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $title = $request->getParam('title');
+    $r_id = $request->getParam('r_id');
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE places SET title=:title,r_id=:r_id,modified='$date' WHERE id=$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':r_id', $r_id);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "State Updated"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Delete State
+
+$app->delete('/api/state/delete/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "DELETE from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "State Deleted"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Get All State
+
+$app->get('/api/states', function (Request $request, Response $response) {
+    $sql = "SELECT * from places";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $states = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($states);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
 ///////////////////////////////////////////////State Exit/////////////////////////////////////////////
 
 ///////////////////////////////////////////////City//////////////////////////////////////////////////
@@ -253,9 +325,85 @@ $app->post('/api/city/add', function (Request $request, Response $response) {
     }
 });
 
+
+//Get Single City Data
+
+$app->get('/api/city/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "SELECT * from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $city = $stmt->fetch(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($city);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Update City
+
+$app->put('/api/city/update/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $title = $request->getParam('title');
+    $r_id = $request->getParam('r_id');
+    $stitle = $request->getParam('stitle');
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE places SET title=:title,r_id=:r_id,stitle=:stitle,modified='$date' WHERE id=$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':r_id', $r_id);
+        $stmt->bindParam(':stitle', $stitle);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "City Updated"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Delete City
+
+$app->delete('/api/city/delete/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "DELETE from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "City Deleted"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Get All City
+
+$app->get('/api/city', function (Request $request, Response $response) {
+    $sql = "SELECT * from places";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $cities = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($cities);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+
 ///////////////////////////////////////////////City Exit/////////////////////////////////////////////
 
-///////////////////////////////////////////////Area////////////////////////////////////////////////////
+///////////////////////////////////////////////Area//////////////////////////////////////////////////
 
 //Add Area
 
@@ -282,4 +430,79 @@ $app->post('/api/area/add', function (Request $request, Response $response) {
     }
 });
 
+//Get Single Area Data
+
+$app->get('/api/area/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "SELECT * from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $area = $stmt->fetch(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($area);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Update Area
+
+$app->put('/api/area/update/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $title = $request->getParam('title');
+    $r_id = $request->getParam('r_id');
+    $stitle = $request->getParam('stitle');
+    $pcode = $request->getParam('pcode');
+    $date = date('Y-m-d H:i:s');
+    $sql = "UPDATE places SET title=:title,r_id=:r_id,stitle=:stitle,pcode=:pcode,modified='$date' WHERE id=$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':r_id', $r_id);
+        $stmt->bindParam(':stitle', $stitle);
+        $stmt->bindParam(':pcode', $pcode);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "Area Updated"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Delete Area
+
+$app->delete('/api/area/delete/{id}', function (Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $sql = "DELETE from places WHERE id =$id";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $db = null;
+        echo '{"notice":{"text": "Area Deleted"}';
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
+
+//Get All Area
+
+$app->get('/api/areas', function (Request $request, Response $response) {
+    $sql = "SELECT * from places";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $areas = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($areas);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});
 ///////////////////////////////////////////////Area Exit///////////////////////////////////////////////

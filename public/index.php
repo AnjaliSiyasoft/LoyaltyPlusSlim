@@ -16,6 +16,6 @@ return $response;
 
 //Regions Routes
 
-require '../src/routes/Regions.php';
+require '../src/routes/configuration.php';
 
 $app->run();
