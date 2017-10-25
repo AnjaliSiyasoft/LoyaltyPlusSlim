@@ -4,7 +4,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app = new \Slim\App;
 
-//Add Regions
+//Add Region
 
 $app->post('/api/regions/add', function (Request $request, Response $response) {
 $title = $request->getParam('title');
@@ -26,7 +26,7 @@ echo '{"error":{"text": '.$e->getMessage().'}';
 }
 });
 
-//Add Countrys
+//Add Country
 
 $app->post('/api/country/add', function (Request $request, Response $response) {
 $title = $request->getParam('title');
@@ -55,7 +55,7 @@ echo '{"error":{"text": '.$e->getMessage().'}';
 
 //Add State
 
-$app->get('/api/state/add', function (Request $request, Response $response) {
+$app->post('/api/state/add', function (Request $request, Response $response) {
 $title = $request->getParam('title');
 $r_id=$request->getParam('r_id');
 $date=date('Y-m-d H:i:s');
@@ -79,7 +79,7 @@ echo '{"error":{"text": '.$e->getMessage().'}';
 
 //Add City
 
-$app->get('/api/city/add', function (Request $request, Response $response) {
+$app->post('/api/city/add', function (Request $request, Response $response) {
 $title = $request->getParam('title');
 $r_id=$request->getParam('r_id');
 $stitle = $request->getParam('stitle');
@@ -93,6 +93,34 @@ $stmt=$db->prepare($sql);
 $stmt->bindParam(':title',$title);
 $stmt->bindParam(':r_id',$r_id);
 $stmt->bindParam(':stitle',$stitle);
+$stmt->execute();
+$db = null;
+echo '{"notice":{"text": "State Added"}';
+}
+catch(PDOException $e)
+{
+echo '{"error":{"text": '.$e->getMessage().'}';
+}
+});
+
+//Add Area
+
+$app->post('/api/area/add', function (Request $request, Response $response) {
+$title = $request->getParam('title');
+$r_id=$request->getParam('r_id');
+$stitle = $request->getParam('stitle');
+$pcode=$request->getParam('pcode');
+$date=date('Y-m-d H:i:s');
+$sql="INSERT INTO places (type,title,r_id,stitle,pcode,created,modified) VALUES ('Area',:title,:r_id,:stitle,:pcode,'$date','$date')";
+try
+{
+$db = new db();
+$db =$db->connect();
+$stmt=$db->prepare($sql);
+$stmt->bindParam(':title',$title);
+$stmt->bindParam(':r_id',$r_id);
+$stmt->bindParam(':stitle',$stitle);
+$stmt->bindParam(':pcode',$pcode);
 $stmt->execute();
 $db = null;
 echo '{"notice":{"text": "State Added"}';
