@@ -110,7 +110,7 @@ $app->get('/api/cities', function (Request $request, Response $response) {
 
 ///////////////////////////////  Get City Combo Data ///////////////////////////
 
-$app->get('/api/countries', function (Request $request, Response $response) {
+$app->get('/api/citycombo', function (Request $request, Response $response) {
     $sql = "SELECT id,title FROM places WHERE type='City'";
     try {
         $db = new db();

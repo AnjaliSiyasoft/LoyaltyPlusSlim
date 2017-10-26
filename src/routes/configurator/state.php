@@ -105,7 +105,7 @@ $app->get('/api/states', function (Request $request, Response $response) {
 
 ///////////////////////////////  Get State Combo Data //////////////////////////
 
-$app->get('/api/countries', function (Request $request, Response $response) {
+$app->get('/api/statecombo', function (Request $request, Response $response) {
     $sql = "SELECT id,title FROM places WHERE type='State'";
     try {
         $db = new db();
