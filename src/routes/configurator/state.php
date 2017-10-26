@@ -88,7 +88,7 @@ $app->delete('/api/state/delete/{id}', function (Request $request, Response $res
 ///////////////////////////////  Get All State  ////////////////////////////////
 
 $app->get('/api/states', function (Request $request, Response $response) {
-    $sql = "SELECT pls.id,pls.title,pls1.title AS countryTitle,pls.r_id, FROM  places AS pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS countryTitle,pls.r_id FROM  places AS pls
             LEFT JOIN places AS pls1 ON pls.r_id=pls1.id
             WHERE pls.type='State'";
     try {
