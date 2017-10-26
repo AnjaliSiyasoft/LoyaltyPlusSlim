@@ -19,4 +19,5 @@ require '../src/routes/configurator/currency.php';
 require '../src/routes/configurator/benefit.php';
 require '../src/routes/methods/year.php';
 
+
 $app->run();

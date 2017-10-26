@@ -23,7 +23,9 @@ $app->post('/api/benefit/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -31,7 +33,7 @@ $app->post('/api/benefit/add', function (Request $request, Response $response) {
 
 $app->get('/api/benefit/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT * FROM benefits WHERE id = " . id;
+    $sql = "SELECT id,title,icon FROM benefits WHERE id = " . id;
     try {
         $db = new db();
         $db = $db->connect();
@@ -40,7 +42,9 @@ $app->get('/api/benefit/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($benefit);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -65,7 +69,9 @@ $app->put('/api/benefit/update/{id}', function (Request $request, Response $resp
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -83,14 +89,16 @@ $app->delete('/api/benefit/delete/{id}', function (Request $request, Response $r
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
 ////////////////////////////////  Get All Benefit //////////////////////////////
 
 $app->get('/api/benefits', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM benefits";
+    $sql = "SELECT id,title,icon FROM benefits";
     try {
         $db = new db();
         $db = $db->connect();
@@ -99,6 +107,8 @@ $app->get('/api/benefits', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($benefits);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });

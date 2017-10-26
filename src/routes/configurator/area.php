@@ -25,7 +25,9 @@ $app->post('/api/area/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -44,7 +46,9 @@ $app->get('/api/area/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($area);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -71,7 +75,9 @@ $app->put('/api/area/update/{id}', function (Request $request, Response $respons
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -89,7 +95,9 @@ $app->delete('/api/area/delete/{id}', function (Request $request, Response $resp
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -107,7 +115,9 @@ $app->get('/api/areas', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($areas);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 

@@ -23,15 +23,16 @@ $app->post('/api/timezone/add', function (Request $request, Response $response) 
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
-    }
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';    }
 });
 
 ////////////////////////////  Get Single TimeZone Data /////////////////////////
 
 $app->get('/api/timezone/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT * FROM reqs WHERE id =" . $id;
+    $sql = "SELECT id,title,value,code FROM reqs WHERE id =" . $id;
     try {
         $db = new db();
         $db = $db->connect();
@@ -40,7 +41,9 @@ $app->get('/api/timezone/{id}', function (Request $request, Response $response) 
         $db = null;
         echo json_encode($timezone);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -65,7 +68,9 @@ $app->put('/api/timezone/update/{id}', function (Request $request, Response $res
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -83,14 +88,16 @@ $app->delete('/api/timezone/delete/{id}', function (Request $request, Response $
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
 /////////////////////////////  Get All TimeZone  ///////////////////////////////
 
 $app->get('/api/timezones', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM reqs WHERE type='Time Zone'";
+    $sql = "SELECT id,title,value,code FROM reqs WHERE type='Time Zone'";
     try {
         $db = new db();
         $db = $db->connect();
@@ -99,7 +106,9 @@ $app->get('/api/timezones', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($timezones);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 

@@ -23,7 +23,9 @@ $app->post('/api/country/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -42,7 +44,9 @@ $app->get('/api/country/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($country);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -67,7 +71,9 @@ $app->put('/api/country/update/{id}', function (Request $request, Response $resp
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -85,7 +91,9 @@ $app->delete('/api/country/delete/{id}', function (Request $request, Response $r
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -103,7 +111,9 @@ $app->get('/api/countries', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($countries);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -119,6 +129,8 @@ $app->get('/api/countrycombo', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($countries);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });

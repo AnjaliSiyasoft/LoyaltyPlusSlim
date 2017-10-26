@@ -21,7 +21,9 @@ $app->post('/api/state/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -40,7 +42,9 @@ $app->get('/api/state/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($state);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -63,7 +67,9 @@ $app->put('/api/state/update/{id}', function (Request $request, Response $respon
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -81,7 +87,9 @@ $app->delete('/api/state/delete/{id}', function (Request $request, Response $res
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -100,7 +108,9 @@ $app->get('/api/states', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($states);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -116,7 +126,9 @@ $app->get('/api/statecombo', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($states);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 

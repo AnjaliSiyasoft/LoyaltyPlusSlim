@@ -19,7 +19,9 @@ $app->post('/api/region/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -27,7 +29,7 @@ $app->post('/api/region/add', function (Request $request, Response $response) {
 
 $app->get('/api/region/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT * FROM places WHERE id =" . $id;
+    $sql = "SELECT id,title FROM places WHERE id =" . $id;
     try {
         $db = new db();
         $db = $db->connect();
@@ -36,7 +38,9 @@ $app->get('/api/region/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($region);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -57,7 +61,9 @@ $app->put('/api/region/update/{id}', function (Request $request, Response $respo
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -75,14 +81,16 @@ $app->delete('/api/region/delete/{id}', function (Request $request, Response $re
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
 /////////////////////////////  Get All Region  /////////////////////////////////
 
 $app->get('/api/regions', function (Request $request, Response $response) {
-    $sql = "SELECT * `FROM places where type='Region'";
+    $sql = "SELECT id,title FROM places where type='Region'";
     try {
         $db = new db();
         $db = $db->connect();
@@ -91,8 +99,8 @@ $app->get('/api/regions', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($regions);
     } catch (PDOException $e) {
-         '{"error":{"text": ' . $e->getMessage() . '}';
         $error= $db->errorInfo();
-            print_r($error);
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });

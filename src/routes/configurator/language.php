@@ -21,7 +21,9 @@ $app->post('/api/language/add', function (Request $request, Response $response) 
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -29,7 +31,7 @@ $app->post('/api/language/add', function (Request $request, Response $response) 
 
 $app->get('/api/language/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT * FROM reqs WHERE id =" . $id;
+    $sql = "SELECT id,title,code FROM reqs WHERE id =" . $id;
     try {
         $db = new db();
         $db = $db->connect();
@@ -38,7 +40,9 @@ $app->get('/api/language/{id}', function (Request $request, Response $response) 
         $db = null;
         echo json_encode($language);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -61,7 +65,9 @@ $app->put('/api/language/update/{id}', function (Request $request, Response $res
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -79,14 +85,16 @@ $app->delete('/api/language/delete/{id}', function (Request $request, Response $
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
 ////////////////////////////   Get All Language  ///////////////////////////////
 
 $app->get('/api/languages', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM reqs WHERE type='Language'";
+    $sql = "SELECT id,title,code FROM reqs WHERE type='Language'";
     try {
         $db = new db();
         $db = $db->connect();
@@ -95,6 +103,8 @@ $app->get('/api/languages', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($languages);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });

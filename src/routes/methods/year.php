@@ -7,10 +7,10 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 $app->post('/api/year/add', function (Request $request, Response $response) {
     $year = $request->getParam('year');
-    $sdate = $request->getParam('sdate');
-    $edate = $request->getParam('edate');
-    $sdate = getDMYDate($sdate);
-    echo $sdate;
+    $startdate = $request->getParam('sdate');
+    $enddate = $request->getParam('edate');
+    $sdate = getDMYDate($startdate);
+    $edate = getDMYDate($enddate);
     $date = date('Y-m-d H:i:s');
     $sql = "INSERT INTO dates (type,year,sdate,edate,created,modified) VALUES ('Year',:year,:sdate,:edate,'" . $date . "','" . $date . "')";
     try {
@@ -25,7 +25,9 @@ $app->post('/api/year/add', function (Request $request, Response $response) {
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -33,7 +35,7 @@ $app->post('/api/year/add', function (Request $request, Response $response) {
 
 $app->get('/api/year/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT * FROM dates WHERE id = " . id;
+    $sql = "SELECT id,year,date_format(sdate,'%d-%m-%Y') AS sdate,date_format(edate,'%d-%m-%Y') AS edate FROM dates WHERE id = " . id;
     try {
         $db = new db();
         $db = $db->connect();
@@ -42,7 +44,9 @@ $app->get('/api/year/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($year);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -50,9 +54,10 @@ $app->get('/api/year/{id}', function (Request $request, Response $response) {
 
 $app->put('/api/year/update/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $year = $request->getParam('year');
-    $sdate = $request->getParam('sdate');
-    $edate = $request->getParam('edate');
+    $startdate = $request->getParam('sdate');
+    $enddate = $request->getParam('edate');
+    $sdate = getDMYDate($startdate);
+    $edate = getDMYDate($enddate);
     $date = date('Y-m-d H:i:s');
     $sql = "UPDATE dates SET year=:year,sdate=:sdate,edate=:edate,modified='" . $date . "' WHERE id=" . $id;
     try {
@@ -67,7 +72,9 @@ $app->put('/api/year/update/{id}', function (Request $request, Response $respons
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
@@ -85,14 +92,16 @@ $app->delete('/api/year/delete/{id}', function (Request $request, Response $resp
         $msg=1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
 
 /////////////////////////////////  Get All Year ////////////////////////////////
 
 $app->get('/api/year', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM dates WHERE type='Year'";
+    $sql = "SELECT id,year,date_format(sdate,'%d-%m-%Y') AS sdate,date_format(edate,'%d-%m-%Y') AS edate FROM dates WHERE type='Year'";
     try {
         $db = new db();
         $db = $db->connect();
@@ -101,6 +110,8 @@ $app->get('/api/year', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($years);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
