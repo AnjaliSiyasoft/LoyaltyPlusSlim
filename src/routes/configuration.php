@@ -188,7 +188,15 @@ $app->delete('/api/country/delete/{id}', function (Request $request, Response $r
 //Get All Country
 
 $app->get('/api/countries', function (Request $request, Response $response) {
-    $sql = "SELECT * from places";
+    $sql = "SELECT 
+    t1.id,t1.title,t2.title,t1.r_id
+    FROM 
+    places as t1
+    left JOIN 
+    places as t2
+    ON
+    t1.r_id=t2.id
+    where t1.type='Country'";
     try {
         $db = new db();
         $db = $db->connect();
