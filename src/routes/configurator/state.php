@@ -28,7 +28,7 @@ $app->post('/api/state/add', function (Request $request, Response $response) {
 
 $app->get('/api/state/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT pls.id,pls.title,pls1.title,pls.r_id FROM  places as pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS countryTitle,pls.r_id FROM  places as pls
             LEFT JOIN places as pls1 ON pls.r_id=pls1.id
             WHERE pls.id=". $id;
     try {
@@ -85,7 +85,7 @@ $app->delete('/api/state/delete/{id}', function (Request $request, Response $res
 ///////////////////////////////  Get All State  ////////////////////////////////
 
 $app->get('/api/states', function (Request $request, Response $response) {
-    $sql = "SELECT pls.id,pls.title,pls1.title,pls.r_id FROM  places as pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS countryTitle,pls.r_id, FROM  places as pls
             LEFT JOIN places as pls1 ON pls.r_id=pls1.id
             WHERE pls.type='State'";
     try {
