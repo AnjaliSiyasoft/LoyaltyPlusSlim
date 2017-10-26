@@ -20,7 +20,8 @@ $app->post('/api/timezone/add', function (Request $request, Response $response) 
         $stmt->bindParam(':code', $code);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -61,7 +62,8 @@ $app->put('/api/timezone/update/{id}', function (Request $request, Response $res
         $stmt->bindParam(':code', $code);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -78,7 +80,8 @@ $app->delete('/api/timezone/delete/{id}', function (Request $request, Response $
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }

@@ -22,7 +22,8 @@ $app->post('/api/area/add', function (Request $request, Response $response) {
         $stmt->bindParam(':pcode', $pcode);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -67,7 +68,8 @@ $app->put('/api/area/update/{id}', function (Request $request, Response $respons
         $stmt->bindParam(':pcode', $pcode);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -84,7 +86,8 @@ $app->delete('/api/area/delete/{id}', function (Request $request, Response $resp
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }

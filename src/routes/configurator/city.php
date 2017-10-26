@@ -20,7 +20,8 @@ $app->post('/api/city/add', function (Request $request, Response $response) {
         $stmt->bindParam(':stitle', $stitle);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -64,7 +65,8 @@ $app->put('/api/city/update/{id}', function (Request $request, Response $respons
         $stmt->bindParam(':stitle', $stitle);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -81,7 +83,8 @@ $app->delete('/api/city/delete/{id}', function (Request $request, Response $resp
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }

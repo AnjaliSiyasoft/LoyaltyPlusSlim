@@ -18,7 +18,8 @@ $app->post('/api/state/add', function (Request $request, Response $response) {
         $stmt->bindParam(':r_id', $r_id);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -59,7 +60,8 @@ $app->put('/api/state/update/{id}', function (Request $request, Response $respon
         $stmt->bindParam(':r_id', $r_id);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -76,7 +78,8 @@ $app->delete('/api/state/delete/{id}', function (Request $request, Response $res
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }

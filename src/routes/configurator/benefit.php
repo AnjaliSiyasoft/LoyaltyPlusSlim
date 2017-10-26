@@ -20,7 +20,8 @@ $app->post('/api/benefit/add', function (Request $request, Response $response) {
         $stmt->bindParam(':type', $type);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -61,7 +62,8 @@ $app->put('/api/benefit/update/{id}', function (Request $request, Response $resp
         $stmt->bindParam(':type', $type);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -78,7 +80,8 @@ $app->delete('/api/benefit/delete/{id}', function (Request $request, Response $r
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }

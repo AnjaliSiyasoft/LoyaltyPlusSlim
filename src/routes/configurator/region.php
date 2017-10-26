@@ -16,7 +16,8 @@ $app->post('/api/region/add', function (Request $request, Response $response) {
         $stmt->bindParam(':title', $title);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted Successfully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -53,7 +54,8 @@ $app->put('/api/region/update/{id}', function (Request $request, Response $respo
         $stmt->bindParam(':title', $title);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated Successfully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -70,7 +72,8 @@ $app->delete('/api/region/delete/{id}', function (Request $request, Response $re
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted Successfully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
