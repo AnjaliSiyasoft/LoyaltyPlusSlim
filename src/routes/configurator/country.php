@@ -107,3 +107,18 @@ $app->get('/api/countries', function (Request $request, Response $response) {
     }
 });
 
+///////////////////////////////  Get Country Combo Data ////////////////////////
+
+$app->get('/api/countries', function (Request $request, Response $response) {
+    $sql = "SELECT id,title FROM places WHERE type='Country'";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $countries = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($countries);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});

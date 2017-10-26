@@ -110,3 +110,4 @@ $app->get('/api/areas', function (Request $request, Response $response) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
 });
+

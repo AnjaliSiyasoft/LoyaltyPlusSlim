@@ -8,6 +8,7 @@ require '../src/config/db.php';
 
 $app = new \Slim\App;
 
+require '../src/routes/commanfunction.php';
 require '../src/routes/configurator/region.php';
 require '../src/routes/configurator/country.php';
 require '../src/routes/configurator/state.php';
@@ -16,5 +17,6 @@ require '../src/routes/configurator/area.php';
 require '../src/routes/configurator/timeZone.php';
 require '../src/routes/configurator/currency.php';
 require '../src/routes/configurator/benefit.php';
+require '../src/routes/methods/year.php';
 
 $app->run();

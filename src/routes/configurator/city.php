@@ -108,3 +108,18 @@ $app->get('/api/cities', function (Request $request, Response $response) {
     }
 });
 
+///////////////////////////////  Get City Combo Data ///////////////////////////
+
+$app->get('/api/countries', function (Request $request, Response $response) {
+    $sql = "SELECT id,title FROM places WHERE type='City'";
+    try {
+        $db = new db();
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $cities = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        echo json_encode($cities);
+    } catch (PDOException $e) {
+        echo '{"error":{"text": ' . $e->getMessage() . '}';
+    }
+});

@@ -9,6 +9,8 @@ $app->post('/api/year/add', function (Request $request, Response $response) {
     $year = $request->getParam('year');
     $sdate = $request->getParam('sdate');
     $edate = $request->getParam('edate');
+    $sdate = getDMYDate($sdate);
+    echo $sdate;
     $date = date('Y-m-d H:i:s');
     $sql = "INSERT INTO dates (type,year,sdate,edate,created,modified) VALUES ('Year',:year,:sdate,:edate,'" . $date . "','" . $date . "')";
     try {
@@ -20,7 +22,8 @@ $app->post('/api/year/add', function (Request $request, Response $response) {
         $stmt->bindParam(':edate', $edate);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -61,7 +64,8 @@ $app->put('/api/year/update/{id}', function (Request $request, Response $respons
         $stmt->bindParam(':edate', $edate);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Updated SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
@@ -78,7 +82,8 @@ $app->delete('/api/year/delete/{id}', function (Request $request, Response $resp
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Deleted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
