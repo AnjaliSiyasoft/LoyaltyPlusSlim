@@ -71,7 +71,7 @@ $app->put('/api/benefit/update/{id}', function (Request $request, Response $resp
 
 $app->delete('/api/benefit/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "DELETE FROM benefits WHERE id =$id";
+    $sql = "DELETE FROM benefits WHERE id =" . $id;
     try {
         $db = new db();
         $db = $db->connect();

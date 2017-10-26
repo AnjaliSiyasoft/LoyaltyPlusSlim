@@ -20,7 +20,8 @@ $app->post('/api/country/add', function (Request $request, Response $response) {
         $stmt->bindParam(':r_id', $r_id);
         $stmt->execute();
         $db = null;
-        echo '{"notice":{"text": "Inserted SuccessFully"}';
+        $msg=1;
+        echo json_encode($msg);
     } catch (PDOException $e) {
         echo '{"error":{"text": ' . $e->getMessage() . '}';
     }
