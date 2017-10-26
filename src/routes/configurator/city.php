@@ -93,7 +93,7 @@ $app->delete('/api/city/delete/{id}', function (Request $request, Response $resp
 ////////////////////////////////  Get All City  ////////////////////////////////
 
 $app->get('/api/cities', function (Request $request, Response $response) {
-    $sql = "SELECT pls.id,pls.title,pls1.title AS countryTitle,pls2.title AS regionTitle,pls3.title AS stateTitle,pls.r_id FROM  places AS pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS stateTitle,pls2.title AS countryTitle,pls3.title AS regionTitle,pls.r_id FROM  places AS pls
             LEFT JOIN places AS pls1 ON pls.r_id=pls1.id
             LEFT JOIN places AS pls2 ON pls1.r_id=pls2.id
             LEFT JOIN places AS pls3 ON pls2.r_id=pls3.id

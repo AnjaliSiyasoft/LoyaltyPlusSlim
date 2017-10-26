@@ -82,7 +82,7 @@ $app->delete('/api/region/delete/{id}', function (Request $request, Response $re
 /////////////////////////////  Get All Region  /////////////////////////////////
 
 $app->get('/api/regions', function (Request $request, Response $response) {
-    $sql = "SELECT * FROM places where type='Region'";
+    $sql = "SELECT * `FROM places where type='Region'";
     try {
         $db = new db();
         $db = $db->connect();
@@ -91,6 +91,8 @@ $app->get('/api/regions', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($regions);
     } catch (PDOException $e) {
-        echo '{"error":{"text": ' . $e->getMessage() . '}';
+         '{"error":{"text": ' . $e->getMessage() . '}';
+        $error= $db->errorInfo();
+            print_r($error);
     }
 });
