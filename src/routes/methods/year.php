@@ -22,11 +22,11 @@ $app->post('/api/year/add', function (Request $request, Response $response) {
         $stmt->bindParam(':edate', $edate);
         $stmt->execute();
         $db = null;
-        $msg=1;
+        $msg = 1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        $error= $db->errorInfo();
-        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        $error = $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]), __LINE__, basename($_SERVER['PHP_SELF']));
         echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
@@ -44,8 +44,8 @@ $app->get('/api/year/{id}', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($year);
     } catch (PDOException $e) {
-        $error= $db->errorInfo();
-        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        $error = $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]), __LINE__, basename($_SERVER['PHP_SELF']));
         echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
@@ -69,11 +69,11 @@ $app->put('/api/year/update/{id}', function (Request $request, Response $respons
         $stmt->bindParam(':edate', $edate);
         $stmt->execute();
         $db = null;
-        $msg=1;
+        $msg = 1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        $error= $db->errorInfo();
-        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        $error = $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]), __LINE__, basename($_SERVER['PHP_SELF']));
         echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
@@ -82,18 +82,18 @@ $app->put('/api/year/update/{id}', function (Request $request, Response $respons
 
 $app->delete('/api/year/delete/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "DELETE FROM dates WHERE id =". $id;
+    $sql = "DELETE FROM dates WHERE id =" . $id;
     try {
         $db = new db();
         $db = $db->connect();
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $db = null;
-        $msg=1;
+        $msg = 1;
         echo json_encode($msg);
     } catch (PDOException $e) {
-        $error= $db->errorInfo();
-        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        $error = $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]), __LINE__, basename($_SERVER['PHP_SELF']));
         echo '{"error":{"text": ' . $error[2] . '}';
     }
 });
@@ -110,8 +110,8 @@ $app->get('/api/year', function (Request $request, Response $response) {
         $db = null;
         echo json_encode($years);
     } catch (PDOException $e) {
-        $error= $db->errorInfo();
-        CatchError(mysql_real_escape_string($error[2]),__LINE__,basename($_SERVER['PHP_SELF']));
+        $error = $db->errorInfo();
+        CatchError(mysql_real_escape_string($error[2]), __LINE__, basename($_SERVER['PHP_SELF']));
         echo '{"error":{"text": ' . $error[2] . '}';
     }
 });

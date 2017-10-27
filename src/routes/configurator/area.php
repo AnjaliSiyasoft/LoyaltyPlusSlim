@@ -35,8 +35,11 @@ $app->post('/api/area/add', function (Request $request, Response $response) {
 
 $app->get('/api/area/{id}', function (Request $request, Response $response) {
     $id = $request->getAttribute('id');
-    $sql = "SELECT pls.id,pls.title,pls1.title AS cityTitle,pls.r_id,pls.stitle,pls.pcode FROM  places AS pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS cityTitle,pls2.title AS stateTitle,pls3.title AS countryTitle,pls4.title AS regionTItle,pls.r_id FROM  places AS pls
             LEFT JOIN places AS pls1 ON pls.r_id=pls1.id
+            LEFT JOIN places AS pls2 ON pls1.r_id=pls2.id
+            LEFT JOIN places AS pls3 ON pls2.r_id=pls3.id
+            LEFT JOIN places AS pls4 ON pls3.r_id=pls4.id
             WHERE pls.id=" . $id;
     try {
         $db = new db();
@@ -104,8 +107,11 @@ $app->delete('/api/area/delete/{id}', function (Request $request, Response $resp
 ///////////////////////////////  Get All Area  /////////////////////////////////
 
 $app->get('/api/areas', function (Request $request, Response $response) {
-    $sql = "SELECT pls.id,pls.title,pls1.title AS cityTitle,pls.r_id,pls.stitle,pls.pcode FROM  places AS pls
+    $sql = "SELECT pls.id,pls.title,pls1.title AS cityTitle,pls2.title AS stateTitle,pls3.title AS countryTitle,pls4.title AS regionTItle,pls.r_id FROM  places AS pls
             LEFT JOIN places AS pls1 ON pls.r_id=pls1.id
+            LEFT JOIN places AS pls2 ON pls1.r_id=pls2.id
+            LEFT JOIN places AS pls3 ON pls2.r_id=pls3.id
+            LEFT JOIN places AS pls4 ON pls3.r_id=pls4.id
             WHERE pls.type='Area'";
     try {
         $db = new db();
